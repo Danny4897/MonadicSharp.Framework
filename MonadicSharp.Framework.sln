@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Agents", "src\MonadicSharp.Agents\MonadicSharp.Agents.csproj", "{0F4A1D08-BF22-4F74-9FF1-72F40E784F89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Security", "src\MonadicSharp.Security\MonadicSharp.Security.csproj", "{105CFC58-5D96-40BC-8141-1AA8907A9698}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{160BFA79-8D43-4338-BB86-AC6CE1053ACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Agents.Tests", "tests\MonadicSharp.Agents.Tests\MonadicSharp.Agents.Tests.csproj", "{2622DB9B-ED34-4852-9D20-24F8D056A703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Security.Tests", "tests\MonadicSharp.Security.Tests\MonadicSharp.Security.Tests.csproj", "{23E3DD2B-93D8-42AE-9381-D079BFE3945D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105CFC58-5D96-40BC-8141-1AA8907A9698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105CFC58-5D96-40BC-8141-1AA8907A9698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105CFC58-5D96-40BC-8141-1AA8907A9698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105CFC58-5D96-40BC-8141-1AA8907A9698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2622DB9B-ED34-4852-9D20-24F8D056A703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2622DB9B-ED34-4852-9D20-24F8D056A703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2622DB9B-ED34-4852-9D20-24F8D056A703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2622DB9B-ED34-4852-9D20-24F8D056A703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23E3DD2B-93D8-42AE-9381-D079BFE3945D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23E3DD2B-93D8-42AE-9381-D079BFE3945D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23E3DD2B-93D8-42AE-9381-D079BFE3945D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23E3DD2B-93D8-42AE-9381-D079BFE3945D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89} = {EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}
+		{105CFC58-5D96-40BC-8141-1AA8907A9698} = {EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}
+		{2622DB9B-ED34-4852-9D20-24F8D056A703} = {160BFA79-8D43-4338-BB86-AC6CE1053ACA}
+		{23E3DD2B-93D8-42AE-9381-D079BFE3945D} = {160BFA79-8D43-4338-BB86-AC6CE1053ACA}
+	EndGlobalSection
+EndGlobal

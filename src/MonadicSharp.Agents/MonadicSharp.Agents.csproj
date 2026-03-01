@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>MonadicSharp.Agents</RootNamespace>
+
+    <PackageId>MonadicSharp.Agents</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Typed multi-agent orchestration for .NET — capability-based sandboxing, railway-oriented pipelines, circuit breakers, and immutable audit trails. Build secure, composable AI agent systems with compile-time guarantees.</Description>
+    <PackageTags>ai;agents;orchestration;multi-agent;capability-security;railway-oriented-programming;result;circuit-breaker;pipeline;monadic</PackageTags>
+    <PackageReleaseNotes>v1.0.0: Initial release — IAgent typed contract, AgentContext with capability sandboxing, AgentCapability flags, sequential and parallel pipelines, CircuitBreaker, AgentOrchestrator, AuditTrail.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" Condition="Exists('README.md')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MonadicSharp core — Result<T>, Option<T>, Railway-Oriented Programming -->
+    <PackageReference Include="MonadicSharp" Version="1.4.0" />
+    <!-- MonadicSharp.AI — AgentResult, RetryResult, AgentExecutionTrace -->
+    <PackageReference Include="MonadicSharp.AI" Version="1.0.0" />
+    <!-- DI abstractions for IServiceProvider integration -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <!-- Logging abstractions -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>

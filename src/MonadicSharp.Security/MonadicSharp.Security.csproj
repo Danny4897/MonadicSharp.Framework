@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>MonadicSharp.Security</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Security layer for MonadicSharp.Agents — prompt injection detection, capability enforcement, immutable audit trails, and secret masking. Security failures are first-class Result values, never silent exceptions.</Description>
+    <PackageTags>ai;agents;security;prompt-injection;audit-trail;secret-masking;railway-oriented-programming;monadic</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonadicSharp" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../MonadicSharp.Agents/MonadicSharp.Agents.csproj" />
+  </ItemGroup>
+</Project>

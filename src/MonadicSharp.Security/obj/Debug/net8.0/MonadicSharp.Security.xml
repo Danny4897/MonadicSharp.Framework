@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonadicSharp.Security</name>
+    </assembly>
+    <members>
+        <member name="T:MonadicSharp.Security.Audit.AuditSeverity">
+            <summary>
+            Severity level of an audit event.
+            </summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Audit.AuditEvent">
+            <summary>
+            Immutable record of a single auditable event in an agent session.
+            All sensitive fields are masked before recording.
+            </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Audit.AuditEvent.ToString">
+            <summary>Produces a single-line structured log representation.</summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Audit.AuditTrail">
+             <summary>
+             Thread-safe, append-only audit trail for agent sessions.
+            
+             The AuditTrail automatically:
+             - Masks secrets in all recorded content (via <see cref="T:MonadicSharp.Security.Masking.SecretMasker"/>)
+             - Attaches session correlation from <see cref="T:MonadicSharp.Agents.Core.AgentContext"/>
+             - Exposes typed queries for security analysis (e.g., all security events, failures only)
+            
+             Design rule: once written, events are immutable and cannot be deleted.
+             This is a deliberate security property — audit trails must be tamper-evident.
+             </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Audit.AuditTrail.Record(System.String,System.String,System.String,System.Boolean,MonadicSharp.Security.Audit.AuditSeverity,MonadicSharp.Error,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>Records an agent action with automatic secret masking.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Audit.AuditTrail.RecordSecurityViolation(System.String,System.String,MonadicSharp.Error,System.String)">
+            <summary>Records a security violation (always severity=Security, succeeded=false).</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Audit.AuditTrail.Events">
+            <summary>All recorded events, in chronological order.</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Audit.AuditTrail.SecurityEvents">
+            <summary>Only security-level events.</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Audit.AuditTrail.Failures">
+            <summary>Only failed events.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Audit.AuditTrail.ForAgent(System.String)">
+            <summary>Events from a specific agent.</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Audit.AuditTrail.HasSecurityViolations">
+            <summary>True if any security violation has been recorded in this session.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Audit.AuditTrail.ExportReport">
+            <summary>Exports all events as a structured text report.</summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Core.SecureAgentContext">
+             <summary>
+             An <see cref="T:MonadicSharp.Agents.Core.AgentContext"/> enhanced with security services:
+             a <see cref="T:MonadicSharp.Security.Guard.PromptGuard"/>, an <see cref="T:MonadicSharp.Security.Audit.AuditTrail"/>, and a <see cref="T:MonadicSharp.Security.Masking.SecretMasker"/>.
+            
+             This is the entry point for the MonadicSharp.Security layer.
+             Instead of creating bare AgentContexts, use <see cref="M:MonadicSharp.Security.Core.SecureAgentContext.Create(MonadicSharp.Agents.Core.AgentCapability,MonadicSharp.Security.Guard.PromptGuardOptions,MonadicSharp.Security.Masking.SecretMasker,System.Threading.CancellationToken)"/>
+             to get a context that automatically validates inputs and records all operations.
+             </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Core.SecureAgentContext.ValidateInput(System.String,System.String)">
+            <summary>
+            Validates user input through the PromptGuard and records the check in the audit trail.
+            Returns the safe input on success, or a typed SecurityError on injection detection.
+            </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Core.SecureAgentContext.Narrow(MonadicSharp.Agents.Core.AgentCapability)">
+            <summary>Narrows capabilities for a child agent while preserving audit/guard context.</summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Errors.SecurityError">
+            <summary>
+            Typed security error factory. All security violations surface as
+            <see cref="T:MonadicSharp.Error"/> values in Result&lt;T&gt; — no silent failures, no unhandled exceptions.
+            </summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Guard.PromptGuard">
+             <summary>
+             Detects and optionally sanitizes prompt injection attempts before they
+             reach a language model or agent pipeline.
+            
+             MonadicSharp.Security's PromptGuard follows the same Railway-Oriented
+             pattern as the rest of the framework: validation failures are typed
+             <see cref="T:MonadicSharp.Error"/> values in a <see cref="T:MonadicSharp.Result`1"/>, never exceptions.
+            
+             Usage:
+             <code>
+             var guard = PromptGuard.Default;
+             var result = guard.Validate(userInput);
+             result.Match(
+                 onSuccess: safe  => pipeline.RunAsync(safe, ctx),
+                 onFailure: error => Result&lt;Output&gt;.Failure(error));
+             </code>
+             </summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Guard.PromptGuard.Default">
+            <summary>Default guard with standard injection detection rules enabled.</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Guard.PromptGuard.Strict">
+            <summary>Strict guard with extended ruleset and tighter limits.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Guard.PromptGuard.Validate(System.String)">
+            <summary>
+            Validates the input against all configured injection rules.
+            Returns the original input on success (ready for forwarding to an agent),
+            or a typed <see cref="T:MonadicSharp.Security.Errors.SecurityError"/> on the first rule violation.
+            </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Guard.PromptGuard.Sanitize(System.String)">
+            <summary>
+            Sanitizes the input by removing or replacing detected injection patterns.
+            Use when you want to proceed with cleaned input rather than blocking entirely.
+            </summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Guard.PromptGuardOptions">
+            <summary>Configuration for <see cref="T:MonadicSharp.Security.Guard.PromptGuard"/>.</summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Masking.SecretMasker">
+             <summary>
+             Prevents secrets (API keys, tokens, passwords, connection strings) from leaking
+             into agent traces, audit logs, or LLM responses.
+            
+             The masker works in two modes:
+             1. Pattern-based: detects well-known secret shapes (AWS keys, JWTs, Bearer tokens, etc.)
+             2. Registry-based: masks specific known values registered at startup
+            
+             All masking is lossless — the masked string retains its length structure
+             so logs remain readable while secrets are replaced with [MASKED].
+             </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Masking.SecretMasker.Register(System.String)">
+            <summary>Registers a known secret value to be masked wherever it appears.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Masking.SecretMasker.AddPattern(System.String,System.String)">
+            <summary>Adds a custom secret detection pattern.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Masking.SecretMasker.Mask(System.String)">
+            <summary>
+            Masks all detected secrets in the input string.
+            Returns the sanitized string safe for logging/tracing.
+            </summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Masking.SecretMasker.ContainsSecret(System.String)">
+            <summary>Returns true if the input contains any detectable secret pattern.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Masking.SecretMasker.MaskDictionary(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>Masks a dictionary of values (e.g., agent metadata, headers).</summary>
+        </member>
+        <member name="P:MonadicSharp.Security.Masking.SecretMasker.Default">
+            <summary>Singleton default instance — no known secrets registered.</summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Middleware.SecureAgentWrapper`2">
+             <summary>
+             Wraps any <see cref="T:MonadicSharp.Agents.IAgent`2"/> with a security layer that:
+             1. Validates input through the <see cref="P:MonadicSharp.Security.Core.SecureAgentContext.Guard"/> before executing
+             2. Masks secrets in the output before returning
+             3. Records all executions (success and failure) in the <see cref="T:MonadicSharp.Security.Audit.AuditTrail"/>
+             4. Enforces capability checks against the context
+            
+             This is the adapter pattern for retrofitting security onto existing agents
+             without modifying them — the wrapped agent is unaware of the security layer.
+            
+             Usage:
+             <code>
+             IAgent&lt;string, Summary&gt; secureAgent = mySummaryAgent.WithSecurity(secureCtx);
+             var result = await secureAgent.ExecuteAsync(userInput, secureCtx.Context);
+             </code>
+             </summary>
+        </member>
+        <member name="T:MonadicSharp.Security.Middleware.SecureAgentExtensions">
+            <summary>Extension methods for wrapping agents with security.</summary>
+        </member>
+        <member name="M:MonadicSharp.Security.Middleware.SecureAgentExtensions.WithSecurity``2(MonadicSharp.Agents.IAgent{``0,``1},MonadicSharp.Security.Core.SecureAgentContext,System.Boolean,System.Boolean)">
+            <summary>Wraps an agent with the full security middleware stack.</summary>
+        </member>
+    </members>
+</doc>
