@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>MonadicSharp.Caching</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Result-aware caching layer for MonadicSharp — cache misses and errors are first-class Result values, never null or exceptions. Supports IMemoryCache, IDistributedCache, and transparent agent output caching via CachingAgentWrapper.</Description>
+    <PackageTags>caching;distributed-cache;memory-cache;railway-oriented-programming;result;monadic;ai;agents</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonadicSharp" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MonadicSharp.Agents/MonadicSharp.Agents.csproj" />
+  </ItemGroup>
+
+</Project>
