@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>MonadicSharp.Http</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Result-aware HTTP client for MonadicSharp — HTTP errors, timeouts, and deserialization failures are first-class Result values. Includes typed retry policies with exponential backoff and integration with MonadicSharp.Agents CircuitBreaker.</Description>
+    <PackageTags>http;httpclient;retry;circuit-breaker;railway-oriented-programming;result;monadic;resilience</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonadicSharp" Version="1.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MonadicSharp.Agents/MonadicSharp.Agents.csproj" />
+  </ItemGroup>
+
+</Project>
