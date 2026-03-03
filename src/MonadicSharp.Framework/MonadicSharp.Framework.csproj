@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>MonadicSharp.Framework</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Description>Meta-package for the MonadicSharp Framework — install this single package to get Agents, Caching, Http, Persistence, Security, and Telemetry in one shot. For à-la-carte usage, reference individual MonadicSharp.* packages instead.</Description>
+    <PackageTags>monadic;framework;ai;agents;caching;http;persistence;security;telemetry;railway-oriented-programming;result</PackageTags>
+    <PackageReleaseNotes>v1.0.0: Initial release — bundles MonadicSharp.Agents, Caching, Http, Persistence, Security, and Telemetry.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <!-- ProjectReferences are converted to PackageReferences in the .nuspec at pack time -->
+  <ItemGroup>
+    <ProjectReference Include="../MonadicSharp.Agents/MonadicSharp.Agents.csproj" />
+    <ProjectReference Include="../MonadicSharp.Caching/MonadicSharp.Caching.csproj" />
+    <ProjectReference Include="../MonadicSharp.Http/MonadicSharp.Http.csproj" />
+    <ProjectReference Include="../MonadicSharp.Persistence/MonadicSharp.Persistence.csproj" />
+    <ProjectReference Include="../MonadicSharp.Security/MonadicSharp.Security.csproj" />
+    <ProjectReference Include="../MonadicSharp.Telemetry/MonadicSharp.Telemetry.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Persistence", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Persistence.Tests", "tests\MonadicSharp.Persistence.Tests\MonadicSharp.Persistence.Tests.csproj", "{575CDE9D-354D-429D-BC3A-F0939EE803BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonadicSharp.Framework", "src\MonadicSharp.Framework\MonadicSharp.Framework.csproj", "{ED6DFAC7-8D2E-4771-B935-2A37FF526176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{575CDE9D-354D-429D-BC3A-F0939EE803BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{575CDE9D-354D-429D-BC3A-F0939EE803BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{575CDE9D-354D-429D-BC3A-F0939EE803BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6DFAC7-8D2E-4771-B935-2A37FF526176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6DFAC7-8D2E-4771-B935-2A37FF526176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6DFAC7-8D2E-4771-B935-2A37FF526176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6DFAC7-8D2E-4771-B935-2A37FF526176}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0F4A1D08-BF22-4F74-9FF1-72F40E784F89} = {EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}
@@ -102,5 +108,6 @@ Global
 		{119968F5-3915-41B3-9B54-4F6F74DC32F9} = {160BFA79-8D43-4338-BB86-AC6CE1053ACA}
 		{EE7B2DA2-4DF3-4D3D-8B88-DC93E037A864} = {EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}
 		{575CDE9D-354D-429D-BC3A-F0939EE803BB} = {160BFA79-8D43-4338-BB86-AC6CE1053ACA}
+		{ED6DFAC7-8D2E-4771-B935-2A37FF526176} = {EE89FB2E-F6BC-4796-BE19-A03BB1F571D1}
 	EndGlobalSection
 EndGlobal

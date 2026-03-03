@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" Condition="Exists('README.md')" />
-  </ItemGroup>
-
-  <ItemGroup>
     <!-- MonadicSharp core — Result<T>, Option<T>, Railway-Oriented Programming -->
     <PackageReference Include="MonadicSharp" Version="1.4.0" />
     <!-- MonadicSharp.AI — AgentResult, RetryResult, AgentExecutionTrace -->
