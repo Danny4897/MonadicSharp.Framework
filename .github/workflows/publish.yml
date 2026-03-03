@@ -1,0 +1,129 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'          # triggers on tags like v1.0.0, v1.2.3
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  publish:
+    name: Pack & Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # ── Extract version from tag (v1.2.3 → 1.2.3) ──────────────────────────
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      # ── Build ────────────────────────────────────────────────────────────────
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build Release
+        run: dotnet build --no-restore --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               /p:AssemblyVersion=${{ steps.version.outputs.VERSION }} \
+               /p:FileVersion=${{ steps.version.outputs.VERSION }}
+
+      # ── Test before publish ──────────────────────────────────────────────────
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+
+      # ── Pack each project ────────────────────────────────────────────────────
+      - name: Pack MonadicSharp.Agents
+        run: dotnet pack src/MonadicSharp.Agents/MonadicSharp.Agents.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      - name: Pack MonadicSharp.Security
+        run: dotnet pack src/MonadicSharp.Security/MonadicSharp.Security.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      - name: Pack MonadicSharp.Telemetry
+        run: dotnet pack src/MonadicSharp.Telemetry/MonadicSharp.Telemetry.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      - name: Pack MonadicSharp.Caching
+        run: dotnet pack src/MonadicSharp.Caching/MonadicSharp.Caching.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      - name: Pack MonadicSharp.Http
+        run: dotnet pack src/MonadicSharp.Http/MonadicSharp.Http.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      - name: Pack MonadicSharp.Persistence
+        run: dotnet pack src/MonadicSharp.Persistence/MonadicSharp.Persistence.csproj \
+               --no-build --configuration Release \
+               /p:PackageVersion=${{ steps.version.outputs.VERSION }} \
+               --output ./nupkgs
+
+      # ── Upload packed artifacts ───────────────────────────────────────────────
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ steps.version.outputs.VERSION }}
+          path: ./nupkgs/*.nupkg
+
+      # ── Publish to NuGet.org ─────────────────────────────────────────────────
+      - name: Push to NuGet.org
+        run: dotnet nuget push ./nupkgs/*.nupkg \
+               --api-key ${{ secrets.NUGET_API_KEY }} \
+               --source https://api.nuget.org/v3/index.json \
+               --skip-duplicate
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      # ── Publish symbols (.snupkg) ─────────────────────────────────────────────
+      - name: Push symbols to NuGet.org
+        run: |
+          if ls ./nupkgs/*.snupkg 1> /dev/null 2>&1; then
+            dotnet nuget push ./nupkgs/*.snupkg \
+              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          fi
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      # ── Create GitHub Release ─────────────────────────────────────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: MonadicSharp.Framework v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## MonadicSharp.Framework v${{ steps.version.outputs.VERSION }}
+
+            ### Packages published to NuGet.org
+            - `MonadicSharp.Agents` ${{ steps.version.outputs.VERSION }}
+            - `MonadicSharp.Security` ${{ steps.version.outputs.VERSION }}
+            - `MonadicSharp.Telemetry` ${{ steps.version.outputs.VERSION }}
+            - `MonadicSharp.Caching` ${{ steps.version.outputs.VERSION }}
+            - `MonadicSharp.Http` ${{ steps.version.outputs.VERSION }}
+            - `MonadicSharp.Persistence` ${{ steps.version.outputs.VERSION }}
+          files: ./nupkgs/*.nupkg
+          generate_release_notes: true
