@@ -1,6 +1,9 @@
 # MonadicSharp.Framework
 
 > **Enterprise-grade AI agent infrastructure for .NET 8** — failures, security violations, and persistence errors are first-class `Result<T>` values, never unhandled exceptions.
+>
+> Topics:
+csharp dotnet framework clean-architecture dotnet-template nuget dotnet8
 
 [![NuGet](https://img.shields.io/badge/nuget-1.0.0-blue)](https://www.nuget.org/profiles/Danny4897)
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com)
