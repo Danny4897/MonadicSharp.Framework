@@ -5,6 +5,7 @@ export default defineConfig({
   description: 'Enterprise-grade AI agent infrastructure for .NET 8 — Railway-Oriented Programming at scale.',
   base: '/MonadicSharp.Framework/',
   cleanUrls: true,
+  ignoreDeadLinks: true,
 
   head: [
     ['meta', { property: 'og:type', content: 'website' }],

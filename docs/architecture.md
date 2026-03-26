@@ -17,7 +17,7 @@ MonadicSharp.Framework is designed as a layered system where every package depen
 - **Horizontal independence**: Agents does not import Http; Http does not import Persistence. Zero coupling.
 - **Vertical layering**: Security and Telemetry are cross-cutting concerns — they integrate with any other package via composition, not inheritance.
 
-## The Result<T> Contract
+## The Result\<T\> Contract
 
 Every public method in the framework returns `Result<T, Error>` or `Task<Result<T, Error>>`. This means:
 
@@ -49,7 +49,7 @@ All framework errors extend `MonadicSharp.Error`:
 
 ## Telemetry Integration
 
-Framework.Telemetry automatically instruments all `Result<T>` pipelines when OpenTelemetry is configured:
+Framework.Telemetry automatically instruments all `Result<T, Error>` pipelines when OpenTelemetry is configured:
 
 ```csharp
 builder.Services.AddOpenTelemetry()
